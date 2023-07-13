@@ -2,73 +2,90 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Departamento;
+use App\Models\Consulta;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
-class DepartamentoController extends Controller
+class ConsultaController extends Controller
 {
     public function index()
     {
-        $departamentos = Departamento::all();
+        $consultas = Consulta::all();
 
-        return response()->json($departamentos);
+        return response()->json($consultas);
     }
 
     public function create(Request $request)
     {
-        $validatedData = $request->validate([
-            'nombre' => 'required|unique:departamentos',
-            'descripcion' => 'required',
-        ]);
+        try {
+            $this->validateRequest($request);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
 
-        $departamento = Departamento::create($validatedData);
+        $consulta = Consulta::create($request->all());
 
-        return response()->json($departamento, 201);
+        return response()->json($consulta, 201);
     }
 
     public function show($id)
     {
-        $departamento = Departamento::find($id);
+        $consulta = Consulta::find($id);
 
-        if (!$departamento) {
-            return response()->json(['error' => 'Departamento no encontrado'], 404);
+        if (!$consulta) {
+            return response()->json(['error' => 'Consulta no encontrada'], 404);
         }
 
-        return response()->json($departamento);
+        return response()->json($consulta);
     }
 
     public function update(Request $request, $id)
     {
-        $departamento = Departamento::find($id);
+        $consulta = Consulta::find($id);
 
-        if (!$departamento) {
-            return response()->json(['error' => 'Departamento no encontrado'], 404);
+        if (!$consulta) {
+            return response()->json(['error' => 'Consulta no encontrada'], 404);
         }
 
-        $validatedData = $request->validate([
-            'nombre' => [
-                'required',
-                Rule::unique('departamentos')->ignore($departamento->id),
-            ],
-            'descripcion' => 'required',
-        ]);
+        try {
+            $this->validateRequest($request);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
 
-        $departamento->update($validatedData);
+        $consulta->update($request->all());
 
-        return response()->json($departamento);
+        return response()->json($consulta);
     }
 
     public function destroy($id)
     {
-        $departamento = Departamento::find($id);
+        $consulta = Consulta::find($id);
 
-        if (!$departamento) {
-            return response()->json(['error' => 'Departamento no encontrado'], 404);
+        if (!$consulta) {
+            return response()->json(['error' => 'Consulta no encontrada'], 404);
         }
 
-        $departamento->delete();
+        $consulta->delete();
 
         return response()->json(null, 204);
+    }
+
+    private function validateRequest(Request $request)
+    {
+        $rules = [
+            'nombre' => 'required',
+            'email' => 'required|email',
+            'mensaje' => 'required',
+        ];
+
+        $messages = [
+            'nombre.required' => 'El campo nombre es obligatorio.',
+            'email.required' => 'El campo email es obligatorio.',
+            'email.email' => 'El campo email debe ser una dirección de correo válida.',
+            'mensaje.required' => 'El campo mensaje es obligatorio.',
+        ];
+
+        $this->validate($request, $rules, $messages);
     }
 }

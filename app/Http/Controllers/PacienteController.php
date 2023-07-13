@@ -16,7 +16,13 @@ class PacienteController extends Controller
     }
 
     public function create(Request $request)
-    { 
+    {
+        try {
+            $this->validateRequest($request);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+
         $paciente = Paciente::create($request->all());
 
         return response()->json($paciente, 201);
@@ -62,21 +68,19 @@ class PacienteController extends Controller
 
         $paciente->delete();
 
-        return response()->json(null, 204);
+        return response()->json("Registro eliminado", 204);
     }
 
     private function validateRequest(Request $request)
     {
         $rules = [
             'nombre' => 'required',
-            'apellido' => 'required',
             'telefono' => 'required',
             'direccion' => 'required',
         ];
 
         $messages = [
             'nombre.required' => 'El campo nombre es obligatorio.',
-            'apellido.required' => 'El campo apellido es obligatorio.',
             'telefono.required' => 'El campo teléfono es obligatorio.',
             'direccion.required' => 'El campo dirección es obligatorio.',
         ];
