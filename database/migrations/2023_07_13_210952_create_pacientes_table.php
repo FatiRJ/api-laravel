@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('direccion');
             $table->string('ciudad');
-            $table->string('pais');
+            $table->string('pais'); 
             $table->string('telefono');
             $table->date('fecha_nacimiento');
             $table->timestamps();
