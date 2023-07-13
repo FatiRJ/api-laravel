@@ -68,7 +68,7 @@ class PacienteController extends Controller
 
         $paciente->delete();
 
-        return response()->json(null, 204);
+        return response()->json("Registro eliminado", 204);
     }
 
     private function validateRequest(Request $request)
