@@ -2,46 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Consulta;
+use App\Models\Departamento;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
-class ConsultaController extends Controller
+class DepartamentoController extends Controller
 {
     public function index()
     {
-        $consultas = Consulta::all();
+        $departamentos = Departamento::all();
 
-        return response()->json($consultas);
+        return response()->json($departamentos);
     }
 
     public function create(Request $request)
     {
-        $consulta = Consulta::create($request->all());
+        $validatedData = $request->validate([
+            'nombre' => 'required|unique:departamentos',
+            'descripcion' => 'required',
+        ]);
 
-        return response()->json($consulta, 201);
+        $departamento = Departamento::create($validatedData);
+
+        return response()->json($departamento, 201);
     }
 
     public function show($id)
     {
-        $consulta = Consulta::findOrFail($id);
+        $departamento = Departamento::find($id);
 
-        return response()->json($consulta);
+        if (!$departamento) {
+            return response()->json(['error' => 'Departamento no encontrado'], 404);
+        }
+
+        return response()->json($departamento);
     }
 
     public function update(Request $request, $id)
     {
-        $consulta = Consulta::findOrFail($id);
-        $consulta->update($request->all());
+        $departamento = Departamento::find($id);
 
-        return response()->json($consulta);
+        if (!$departamento) {
+            return response()->json(['error' => 'Departamento no encontrado'], 404);
+        }
+
+        $validatedData = $request->validate([
+            'nombre' => [
+                'required',
+                Rule::unique('departamentos')->ignore($departamento->id),
+            ],
+            'descripcion' => 'required',
+        ]);
+
+        $departamento->update($validatedData);
+
+        return response()->json($departamento);
     }
 
     public function destroy($id)
     {
-        $consulta = Consulta::findOrFail($id);
-        $consulta->delete();
+        $departamento = Departamento::find($id);
+
+        if (!$departamento) {
+            return response()->json(['error' => 'Departamento no encontrado'], 404);
+        }
+
+        $departamento->delete();
 
         return response()->json(null, 204);
     }
-
 }
