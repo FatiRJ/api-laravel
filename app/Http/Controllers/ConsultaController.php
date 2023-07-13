@@ -68,22 +68,17 @@ class ConsultaController extends Controller
 
         $consulta->delete();
 
-        return response()->json(null, 204);
+        return response()->json("Registro eliminado", 204);
     }
 
     private function validateRequest(Request $request)
     {
         $rules = [
-            'nombre' => 'required',
-            'email' => 'required|email',
-            'mensaje' => 'required',
+            'fecha' => 'required'
         ];
 
         $messages = [
-            'nombre.required' => 'El campo nombre es obligatorio.',
-            'email.required' => 'El campo email es obligatorio.',
-            'email.email' => 'El campo email debe ser una dirección de correo válida.',
-            'mensaje.required' => 'El campo mensaje es obligatorio.',
+            'fecha.required' => 'El campo fecha es obligatorio.'
         ];
 
         $this->validate($request, $rules, $messages);
