@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('consultas', function (Blueprint $table) {
@@ -24,10 +21,6 @@ return new class extends Migration
             $table->foreign('medico_id')->references('medico_id')->on('medicos')->onDelete('cascade');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('consultas');
