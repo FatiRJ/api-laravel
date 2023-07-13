@@ -9,14 +9,9 @@ class Paciente extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'nombre',
-        'direccion',
-        'ciudad',
-        'pais',
-        'telefono',
-        'fecha_nacimiento',
-    ];
+    protected $primaryKey = 'paciente_id';
+    protected $fillable = ['nombre', 'direccion','ciudad','pais','telefono','fecha_nacimiento'];
+
 
     public function consultas()
     {
