@@ -75,14 +75,12 @@ class MedicoController extends Controller
     {
         $rules = [
             'nombre' => 'required',
-            'especialidad' => 'required',
-            'telefono' => 'required',
+            'especialidad' => 'required'
         ];
 
         $messages = [
             'nombre.required' => 'El campo nombre es obligatorio.',
-            'especialidad.required' => 'El campo especialidad es obligatorio.',
-            'telefono.required' => 'El campo teléfono es obligatorio.',
+            'especialidad.required' => 'El campo especialidad es obligatorio.'
         ];
 
         $this->validate($request, $rules, $messages);
