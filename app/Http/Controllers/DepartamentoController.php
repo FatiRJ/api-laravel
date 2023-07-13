@@ -18,7 +18,7 @@ class DepartamentoController extends Controller
     public function create(Request $request)
     {
         $validatedData = $request->validate([
-            'nombre' => 'required|unique:departamentos',
+            'nombre' => 'required',
             'descripcion' => 'required',
         ]);
 
@@ -47,10 +47,7 @@ class DepartamentoController extends Controller
         }
 
         $validatedData = $request->validate([
-            'nombre' => [
-                'required',
-                Rule::unique('departamentos')->ignore($departamento->id),
-            ],
+            'nombre' => 'required',
             'descripcion' => 'required',
         ]);
 
@@ -69,6 +66,6 @@ class DepartamentoController extends Controller
 
         $departamento->delete();
 
-        return response()->json(null, 204);
+        return response()->json("Registro eliminado", 204);
     }
 }

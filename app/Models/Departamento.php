@@ -12,7 +12,7 @@ class Departamento extends Model
     protected $primaryKey = 'departamento_id';
     protected $fillable = [
         'nombre',
-        'descripción',
+        'descripcion',
     ];
     public function hospitales()
     {
