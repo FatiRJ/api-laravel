@@ -75,14 +75,12 @@ class PacienteController extends Controller
     {
         $rules = [
             'nombre' => 'required',
-            'apellido' => 'required',
             'telefono' => 'required',
             'direccion' => 'required',
         ];
 
         $messages = [
             'nombre.required' => 'El campo nombre es obligatorio.',
-            'apellido.required' => 'El campo apellido es obligatorio.',
             'telefono.required' => 'El campo teléfono es obligatorio.',
             'direccion.required' => 'El campo dirección es obligatorio.',
         ];
