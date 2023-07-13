@@ -10,6 +10,7 @@ class Medico extends Model
     use HasFactory;
 
     protected $primaryKey = 'medico_id';
+    protected $fillable = ['nombre', 'especialidad'];
 
     public function hospitales()
     {

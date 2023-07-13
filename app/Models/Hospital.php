@@ -11,7 +11,14 @@ class Hospital extends Model
 
     protected $primaryKey = 'hospital_id';
     protected $table = 'hospitales';
-
+    protected $fillable = [
+        'nombre',
+        'direccion',
+        'ciudad',
+        'pais',
+        'telefono',
+    ];
+    
 
     public function departamentos()
     {

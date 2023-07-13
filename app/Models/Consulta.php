@@ -10,7 +10,13 @@ class Consulta extends Model
     use HasFactory;
 
     protected $primaryKey = 'consulta_id';
-
+    protected $fillable = [
+        'paciente_id', 
+        'medico_id',
+        'fecha',
+        'diagnostico',
+        'tratamiento',
+    ];
     public function paciente()
     {
         return $this->belongsTo(Paciente::class, 'paciente_id');

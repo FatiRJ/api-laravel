@@ -15,7 +15,7 @@ class PacienteController extends Controller
     }
 
     public function create(Request $request)
-    {
+    { 
         $paciente = Paciente::create($request->all());
 
         return response()->json($paciente, 201);
