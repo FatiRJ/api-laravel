@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Consulta;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ConsultaController extends Controller
 {
@@ -16,6 +17,12 @@ class ConsultaController extends Controller
 
     public function create(Request $request)
     {
+        try {
+            $this->validateRequest($request);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+
         $consulta = Consulta::create($request->all());
 
         return response()->json($consulta, 201);
@@ -23,14 +30,29 @@ class ConsultaController extends Controller
 
     public function show($id)
     {
-        $consulta = Consulta::findOrFail($id);
+        $consulta = Consulta::find($id);
+
+        if (!$consulta) {
+            return response()->json(['error' => 'Consulta no encontrada'], 404);
+        }
 
         return response()->json($consulta);
     }
 
     public function update(Request $request, $id)
     {
-        $consulta = Consulta::findOrFail($id);
+        $consulta = Consulta::find($id);
+
+        if (!$consulta) {
+            return response()->json(['error' => 'Consulta no encontrada'], 404);
+        }
+
+        try {
+            $this->validateRequest($request);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+
         $consulta->update($request->all());
 
         return response()->json($consulta);
@@ -38,10 +60,32 @@ class ConsultaController extends Controller
 
     public function destroy($id)
     {
-        $consulta = Consulta::findOrFail($id);
+        $consulta = Consulta::find($id);
+
+        if (!$consulta) {
+            return response()->json(['error' => 'Consulta no encontrada'], 404);
+        }
+
         $consulta->delete();
 
         return response()->json(null, 204);
     }
 
+    private function validateRequest(Request $request)
+    {
+        $rules = [
+            'nombre' => 'required',
+            'email' => 'required|email',
+            'mensaje' => 'required',
+        ];
+
+        $messages = [
+            'nombre.required' => 'El campo nombre es obligatorio.',
+            'email.required' => 'El campo email es obligatorio.',
+            'email.email' => 'El campo email debe ser una dirección de correo válida.',
+            'mensaje.required' => 'El campo mensaje es obligatorio.',
+        ];
+
+        $this->validate($request, $rules, $messages);
+    }
 }
