@@ -11,7 +11,6 @@ class ConsultaController extends Controller
     public function index()
     {
         $consultas = Consulta::all();
-
         return response()->json($consultas);
     }
 
@@ -24,14 +23,12 @@ class ConsultaController extends Controller
         }
 
         $consulta = Consulta::create($request->all());
-
         return response()->json($consulta, 201);
     }
 
     public function show($id)
     {
         $consulta = Consulta::find($id);
-
         if (!$consulta) {
             return response()->json(['error' => 'Consulta no encontrada'], 404);
         }
@@ -42,7 +39,6 @@ class ConsultaController extends Controller
     public function update(Request $request, $id)
     {
         $consulta = Consulta::find($id);
-
         if (!$consulta) {
             return response()->json(['error' => 'Consulta no encontrada'], 404);
         }
@@ -61,31 +57,22 @@ class ConsultaController extends Controller
     public function destroy($id)
     {
         $consulta = Consulta::find($id);
-
         if (!$consulta) {
             return response()->json(['error' => 'Consulta no encontrada'], 404);
         }
 
         $consulta->delete();
-
-        return response()->json(null, 204);
+        return response()->json("Registro eliminado", 204);
     }
 
     private function validateRequest(Request $request)
     {
         $rules = [
-            'nombre' => 'required',
-            'email' => 'required|email',
-            'mensaje' => 'required',
+            'fecha' => 'required'
         ];
-
         $messages = [
-            'nombre.required' => 'El campo nombre es obligatorio.',
-            'email.required' => 'El campo email es obligatorio.',
-            'email.email' => 'El campo email debe ser una dirección de correo válida.',
-            'mensaje.required' => 'El campo mensaje es obligatorio.',
+            'fecha.required' => 'El campo fecha es obligatorio.'
         ];
-
         $this->validate($request, $rules, $messages);
     }
 }

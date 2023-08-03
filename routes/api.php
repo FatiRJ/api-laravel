@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('consultas/{id}', [ConsultaController::class, 'show']);           // Obtener un Consulta por ID
     Route::put('consultas/{id}', [ConsultaController::class, 'update']);         // Actualizar un Consulta por ID
     Route::delete('consultas/{id}', [ConsultaController::class, 'destroy']);     // Eliminar un Consulta por ID
-    //SSS
+    
     Route::get('departamentos', [DepartamentoController::class, 'index']);              // Obtener todos los departamentos
     Route::post('departamentos', [DepartamentoController::class, 'create']);             // Crear un nuevo Departamento
     Route::get('departamentos/{id}', [DepartamentoController::class, 'show']);           // Obtener un Departamento por ID
