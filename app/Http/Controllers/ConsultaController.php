@@ -62,6 +62,7 @@ class ConsultaController extends Controller
         }
 
         $consulta->delete();
+
         return response()->json("Registro eliminado", 204);
     }
 
