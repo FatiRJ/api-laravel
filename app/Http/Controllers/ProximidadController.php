@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\SensorData;
 
 class ProximidadController extends Controller
 {
@@ -30,6 +31,19 @@ class ProximidadController extends Controller
     {
         $token = $request->header('X-AIO-key');
         $datos = $this->fetchDataFromFeed($token, $feedName);
+
+        $sensorData = new SensorData();
+        $sensorData->fill([
+        'feed_id' => $datos['id'],
+        'name' => $datos['name'],
+        'description' => $datos['description'],
+        // Llena más campos aquí según la estructura de los datos
+        'created_at' => $datos['created_at'],
+        'updated_at' => $datos['updated_at']
+    ]);
+
+    // Guarda la instancia en la base de datos
+    $sensorData->save();
     
         return response()->json($datos, 200);
     }
