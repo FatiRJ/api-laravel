@@ -22,8 +22,53 @@ class ProximidadController extends Controller
     {
         $token = $request->header('X-AIO-key');
         $response = Http::withHeaders(['X-AIO-key' => $token])
-            ->get('https://io.adafruit.com/api/v2/GabrielDev/feeds/welcome-feed/data/last');
+            ->get('https://io.adafruit.com/api/v2/fati13rj/feeds/temperatura');
+
         $datos = $response->json();
-        return response()->json($datos, 200);
+
+        // Crear un array con solo los campos que deseas
+        $dataSubset = [
+            "name" => $datos["name"],
+            "last_value" => $datos["last_value"]
+        ];
+        return response()->json($dataSubset, 200);
+    }
+
+    public function obtenerTodo(Request $request)
+    {
+        $token = $request->header('X-AIO-key');
+
+        // Obtener datos del feed 'temperatura'
+        $responseTemperatura = Http::withHeaders(['X-AIO-key' => $token])
+            ->get('https://io.adafruit.com/api/v2/fati13rj/feeds/temperatura');
+        $datosTemperatura = $responseTemperatura->json();
+
+        // Obtener datos del feed 'humedad'
+        $responseHumedad = Http::withHeaders(['X-AIO-key' => $token])
+            ->get('https://io.adafruit.com/api/v2/fati13rj/feeds/humedad');
+        $datosHumedad = $responseHumedad->json();
+
+        // Obtener datos del feed 'distancia'
+        $responseDistancia = Http::withHeaders(['X-AIO-key' => $token])
+            ->get('https://io.adafruit.com/api/v2/fati13rj/feeds/distancia');
+        $datosDistancia = $responseDistancia->json();
+
+        // Crear un array con los campos que deseas de cada feed
+        $dataSubset = [
+            "temperatura" => [
+                "name" => $datosTemperatura["name"],
+                "last_value" => $datosTemperatura["last_value"]
+            ],
+            "humedad" => [
+                "name" => $datosHumedad["name"],
+                "last_value" => $datosHumedad["last_value"]
+            ],
+            "distancia" => [
+                "name" => $datosDistancia["name"],
+                "last_value" => $datosDistancia["last_value"]
+            ]
+        ];
+
+        return response()->json($dataSubset, 200);
     }
 }
