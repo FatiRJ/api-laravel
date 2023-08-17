@@ -9,24 +9,29 @@ use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProximidadController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+
+    Route::get('/datos', [ProximidadController::class, 'datos']);
+    Route::get('/ultimoDato', [ProximidadController::class, 'ultimoDato']);
+
     Route::get('hospitales', [HospitalController::class, 'index']);              // Obtener todos los hospitales
     Route::post('hospitales', [HospitalController::class, 'create']);             // Crear un nuevo hospital
     Route::get('hospitales/{id}', [HospitalController::class, 'show']);           // Obtener un hospital por ID
     Route::put('hospitales/{id}', [HospitalController::class, 'update']);         // Actualizar un hospital por ID
     Route::delete('hospitales/{id}', [HospitalController::class, 'destroy']);     // Eliminar un hospital por ID
-    
+
     Route::get('medicos', [MedicoController::class, 'index']);              // Obtener todos los medicos
     Route::post('medicos', [MedicoController::class, 'create']);             // Crear un nuevo Medico
     Route::get('medicos/{id}', [MedicoController::class, 'show']);           // Obtener un Medico por ID
     Route::put('medicos/{id}', [MedicoController::class, 'update']);         // Actualizar un Medico por ID
     Route::delete('medicos/{id}', [MedicoController::class, 'destroy']);     // Eliminar un Medico por ID
-    
+
     Route::get('pacientes', [PacienteController::class, 'index']);              // Obtener todos los pacientes
     Route::post('pacientes', [PacienteController::class, 'create']);             // Crear un nuevo Paciente
     Route::get('pacientes/{id}', [PacienteController::class, 'show']);           // Obtener un Paciente por ID
@@ -38,7 +43,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('consultas/{id}', [ConsultaController::class, 'show']);           // Obtener un Consulta por ID
     Route::put('consultas/{id}', [ConsultaController::class, 'update']);         // Actualizar un Consulta por ID
     Route::delete('consultas/{id}', [ConsultaController::class, 'destroy']);     // Eliminar un Consulta por ID
-    //SSS
+
     Route::get('departamentos', [DepartamentoController::class, 'index']);              // Obtener todos los departamentos
     Route::post('departamentos', [DepartamentoController::class, 'create']);             // Crear un nuevo Departamento
     Route::get('departamentos/{id}', [DepartamentoController::class, 'show']);           // Obtener un Departamento por ID

@@ -11,7 +11,6 @@ class ConsultaController extends Controller
     public function index()
     {
         $consultas = Consulta::all();
-
         return response()->json($consultas);
     }
 
@@ -24,14 +23,12 @@ class ConsultaController extends Controller
         }
 
         $consulta = Consulta::create($request->all());
-
         return response()->json($consulta, 201);
     }
 
     public function show($id)
     {
         $consulta = Consulta::find($id);
-
         if (!$consulta) {
             return response()->json(['error' => 'Consulta no encontrada'], 404);
         }
@@ -42,7 +39,6 @@ class ConsultaController extends Controller
     public function update(Request $request, $id)
     {
         $consulta = Consulta::find($id);
-
         if (!$consulta) {
             return response()->json(['error' => 'Consulta no encontrada'], 404);
         }
@@ -61,7 +57,6 @@ class ConsultaController extends Controller
     public function destroy($id)
     {
         $consulta = Consulta::find($id);
-
         if (!$consulta) {
             return response()->json(['error' => 'Consulta no encontrada'], 404);
         }
@@ -76,11 +71,9 @@ class ConsultaController extends Controller
         $rules = [
             'fecha' => 'required'
         ];
-
         $messages = [
             'fecha.required' => 'El campo fecha es obligatorio.'
         ];
-
         $this->validate($request, $rules, $messages);
     }
 }
