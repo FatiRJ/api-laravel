@@ -17,8 +17,8 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
-    Route::get('/datos', [ProximidadController::class, 'datos']);
-    Route::get('/ultimoDato', [ProximidadController::class, 'ultimoDato']);
+    Route::get('/datos/{feedName}', [ProximidadController::class, 'obtenerDatosFeed']);
+    Route::get('/ultimoDato/{feedName}', [ProximidadController::class, 'obtenerUltimoDato']);
     Route::get('/obtenerTodo', [ProximidadController::class, 'obtenerTodo']);
 
     Route::get('hospitales', [HospitalController::class, 'index']);              // Obtener todos los hospitales

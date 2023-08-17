@@ -14,22 +14,26 @@ class ProximidadController extends Controller
         return $response->json();
     }
 
-    public function datos(Request $request)
+    public function obtenerDatosFeed(Request $request, $feedName)
     {
         $token = $request->header('X-AIO-key');
-        $datos = $this->fetchDataFromFeed($token, 'sensorvalue/data');
+        $feedData = $this->fetchDataFromFeed($token, $feedName . '/data');
+    
         return response()->json([
             'status' => 'ok',
-            'datos' => $datos
+            'datos' => $feedData
         ], 200);
     }
+    
 
-    public function ultimoDato(Request $request)
+    public function obtenerUltimoDato(Request $request, $feedName)
     {
         $token = $request->header('X-AIO-key');
-        $datos = $this->fetchDataFromFeed($token, 'welcome-feed/data/last');
+        $datos = $this->fetchDataFromFeed($token, $feedName);
+    
         return response()->json($datos, 200);
     }
+    
 
     public function obtenerTodo(Request $request)
     {
