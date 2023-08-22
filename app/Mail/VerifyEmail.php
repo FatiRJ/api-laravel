@@ -12,11 +12,12 @@ class VerifyEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    private $data = [];
     public $user;
 
-    public function __construct($user)
+    public function __construct($data)
     {
-        $this->user = $user;
+        $this->data = $data;
     }
 
     public function build()

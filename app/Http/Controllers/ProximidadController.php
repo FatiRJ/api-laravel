@@ -32,20 +32,20 @@ class ProximidadController extends Controller
         $token = $request->header('X-AIO-key');
         $datos = $this->fetchDataFromFeed($token, $feedName);
         // Verifica si los datos obtenidos son válidos
-        if (isset($datos['id']) && isset($datos['name']) && isset($datos['created_at'])) {
+        if (isset($datos['name']) && isset($datos['last_value']) && isset($datos['created_at'])) {
             $sensorData = new SensorData();
             $sensorData->fill([
-                'feed_id' => $datos['id'],
+                'feed_id' => $datos['id'], // Asegúrate de tener este campo en tu modelo
                 'name' => $datos['name'],
-                'description' => $datos['description'],
-                // Llena más campos aquí según la estructura de los datos
+                'description' => $datos['description'], // Si este campo es opcional, agrega un if para verificar
+                'last_value' => $datos['last_value'],
                 'created_at' => $datos['created_at'],
                 'updated_at' => $datos['updated_at']
             ]);
 
             // Guarda la instancia en la base de datos
             $sensorData->save();
-            dd($datos);
+
             return response()->json($datos, 200);
         } else {
             return response()->json(['error' => 'Datos inválidos obtenidos de la API'], 400);

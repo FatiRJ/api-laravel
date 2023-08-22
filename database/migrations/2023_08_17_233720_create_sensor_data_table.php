@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->integer('feed_id');
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->string('last_value');
             // Agrega más columnas aquí según la estructura de los datos
             $table->timestamps();
         });

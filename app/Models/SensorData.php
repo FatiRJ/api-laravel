@@ -11,8 +11,6 @@ class SensorData extends Model
     protected $fillable = [
         'feed_id',
         'name',
-        'description',
-        // Agrega más campos aquí según la estructura de los datos
         'created_at',
         'updated_at'
     ];
