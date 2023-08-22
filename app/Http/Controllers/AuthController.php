@@ -6,6 +6,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\VerifyEmailNotification;
+use App\Mail\VerifyEmail;
+use Illuminate\Support\Facades\Mail;
+
 
 class AuthController extends Controller
 {
@@ -23,6 +27,8 @@ class AuthController extends Controller
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
         ]);
+
+        // Mail::to($user->email)->send(new VerifyEmail($user));
 
         return response()->json(['message' => 'User registered successfully'], 201);
     }
